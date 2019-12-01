@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2 id='cat'></h2>
+    <h2 id='rat'></h2>
+    <h2 id='eaten'></h2>
+
+    <button onclick="catchEat()">Catch & Eat Rat</button>
+    
+    <script>
+        class Rat {
+            constructor(name, weight, speed, status) {
+                this.name = name;
+                this.weight = weight;
+                this.speed = speed;
+                this.status = status;
+            }
+
+            checkStatus() {
+                this.status == 0 ? true : false
+            }
+            
+            getWeight() {
+                return this.weight;
+            }
+
+            say() {
+                console.log('Rat ss')
+            }
+        }
+
+        class Cat {
+            constructor(name, weight, maxspeed) {
+                this.name = name;
+                this.weight = weight;
+                this.maxspeed = maxspeed;
+            }
+
+            say() {
+                console.log('Meow');
+            }
+
+            catch(rat) {
+                rat.forEach(function(element){
+                    if(element.speed < 10){
+                        element.canCatch = true;
+                    }
+                    else{
+                        element.canCatch = false;
+                    }
+                });
+
+                return rat;
+            }
+
+            eat(rat) {
+                let eaten = 0;
+                rat.forEach(function(element){
+                  if(element.canCatch == true && element.status == 0){
+                    eaten += 1;
+                  }
+                });
+                return eaten;
+            }
+
+            getName() {
+                return this.name;
+            }
+
+            getWeight() {
+                return this.weight;
+            }
+        }
+
+        let cat = new Cat('Tom', 25, 10);
+        let rats =[] ;
+        for (let i = 0; i < 10; i++) {
+            let random = Math.floor(Math.random() * 2);
+            let speedRat = Math.floor(Math.random() * 15 + 1);
+            rats[i] = new Rat('rat ' + i, 5, speedRat, random);
+        }
+        
+        function show() {
+            document.getElementById('cat').innerHTML =  cat.getName() + ' ' + cat.getWeight() + 'kg';
+            document.getElementById('rat').innerHTML = 'Number of mice left is : ' + rats.length;
+        }
+        show();
+
+        function catchEat() {
+            let ratCanCatch = cat.catch(rats);
+            let ratEaten = cat.eat(ratCanCatch);
+    
+            document.getElementById('cat').innerHTML = cat.getName() + ' ' + (cat.getWeight() + rats[1].getWeight()*ratEaten) + 'kg';
+            document.getElementById('rat').innerHTML = 'Number of mice left is : ' + (rats.length -ratEaten);
+            document.getElementById('eaten').innerHTML = 'Number of mice eaten : ' + ratEaten;
+            console.log(rats);
+        }
+    </script>
+</body>
+</html>
